@@ -1,24 +1,21 @@
-const express = require("express");
-const cors = require("cors");
+const mysql = require("mysql2");
 require("dotenv").config();
 
-// koneksi database
-require("./config/database");
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.get("/", (req, res) => {
-    res.json({
-        status: "success",
-        message: "Backend Perpustakaan berjalan!"
-    });
+const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "perpustakaan_db",
+    port: 3306
 });
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`Server berjalan di http://localhost:${PORT}`);
+connection.connect((err) => {
+    if (err) {
+        console.log("❌ Gagal koneksi database");
+        console.log(err);
+    } else {
+        console.log("✅ Berhasil terhubung ke database");
+    }
 });
+
+module.exports = connection;
