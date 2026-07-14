@@ -11,17 +11,13 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
-
     res.json({
         message: "Backend berjalan"
     });
-
 });
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-
     console.log(`Server berjalan di http://localhost:${PORT}`);
-
 });
