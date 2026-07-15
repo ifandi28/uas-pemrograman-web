@@ -1,43 +1,56 @@
 <script>
-    import api from "./api/api";
+import api from "./api/api";
 
-    let email = "";
-    let password = "";
+let email="";
+let password="";
 
-    async function login() {
-        try {
-            const res = await api.post("/auth/login", {
-                email,
-                password
-            });
+let books=[];
 
-            localStorage.setItem("token", res.data.token);
+async function login(){
 
-            alert("Login Berhasil!");
+    const res=await api.post("/auth/login",{
+        email,
+        password
+    });
 
-        } catch (err) {
-            alert("Email atau Password salah");
-            console.log(err);
+    localStorage.setItem("token",res.data.token);
+
+    getBooks();
+}
+
+async function getBooks() {
+
+    const token = localStorage.getItem("token");
+
+    const res = await api.get("/books", {
+        headers: {
+            Authorization: `Bearer ${token}`
         }
-    }
+    });
+
+    console.log(res.data);
+
+    books = res.data;
+}
 </script>
 
-<h1>Login Perpustakaan</h1>
+<h1>Login</h1>
 
-<input
-    type="email"
-    bind:value={email}
-    placeholder="Email">
+<input bind:value={email} placeholder="Email">
 
-<br><br>
+<input type="password" bind:value={password} placeholder="Password">
 
-<input
-    type="password"
-    bind:value={password}
-    placeholder="Password">
+<button on:click={login}>Login</button>
 
-<br><br>
+<hr>
 
-<button on:click={login}>
-    Login
-</button>
+<h2>Daftar Buku</h2>
+
+{#each books as book}
+
+<p>
+<b>{book.judul}</b><br>
+{book.penulis}
+</p>
+
+{/each}
