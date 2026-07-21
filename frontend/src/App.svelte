@@ -489,41 +489,108 @@
 <div class="container mt-4">
 
     <!-- HEADER -->
-    <div class="card shadow mb-4">
+<div class="card shadow mb-4">
 
-        <div class="card-body d-flex justify-content-between align-items-center">
+    <div class="card-body d-flex justify-content-between align-items-center">
 
-            <div>
+        <div>
 
-                <h2 class="mb-1">
-                    📚 Sistem Peminjaman Buku Perpustakaan
-                </h2>
+            <h2 class="fw-bold text-primary mb-1">
 
-                <small class="text-muted">
-                    Dashboard Admin
-                </small>
+                📚 Sistem Peminjaman Buku Perpustakaan
+
+            </h2>
+
+            <p class="text-secondary mb-0">
+
+                Kelola Buku & Peminjaman Dengan Mudah
+
+            </p>
+
+        </div>
+
+        <button
+            class="btn btn-outline-danger px-4"
+            on:click={logout}>
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ================= Dashboard ================= -->
+
+<div class="row mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-lg bg-primary text-white">
+
+            <div class="card-body text-center py-4">
+
+                <div style="font-size:55px;">📚</div>
+
+                <h1 class="fw-bold">{books.length}</h1>
+
+                <p class="mb-0">Total Buku</p>
 
             </div>
-
-            <button
-                class="btn btn-danger"
-                on:click={logout}>
-
-                Logout
-
-            </button>
 
         </div>
 
     </div>
 
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-lg bg-warning text-dark">
+
+            <div class="card-body text-center py-4">
+
+                <div style="font-size:55px;">📖</div>
+
+                <h1 class="fw-bold">
+                    {peminjaman.filter(x => x.status === "Dipinjam").length}
+                </h1>
+
+                <p class="mb-0">Sedang Dipinjam</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-lg bg-success text-white">
+
+            <div class="card-body text-center py-4">
+
+                <div style="font-size:55px;">✅</div>
+
+                <h1 class="fw-bold">
+                    {peminjaman.filter(x => x.status === "Dikembalikan").length}
+                </h1>
+
+                <p class="mb-0">Sudah Dikembalikan</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
     <!-- ========================= -->
     <!-- DATA PEMINJAMAN -->
     <!-- ========================= -->
 
     <div class="card shadow mt-4">
 
-        <div class="card-header bg-success text-white">
+        <div class="card-header text-white" style="background:#1E40AF;">
 
             <h5 class="mb-0">
                 📖 Data Peminjaman Buku
@@ -622,7 +689,7 @@
             </div>
 
             <button
-                class="btn btn-success"
+                class="btn btn-primary px-4"
                 on:click={tambahPeminjaman}>
 
                 Simpan Peminjaman
@@ -635,7 +702,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-bordered table-striped">
+                <table class="table table-hover align-middle">
 
                     <thead class="table-dark">
 
@@ -736,7 +803,7 @@
 
     <div class="card shadow mb-4 mt-4">
 
-        <div class="card-header bg-success text-white">
+        <div class="card-header text-white" style="background:#2563EB;">
 
             <h5 class="mb-0">
 
@@ -808,7 +875,7 @@
             {#if editId}
 
                 <button
-                    class="btn btn-warning"
+                    class="btn btn-warning px-4"
                     on:click={updateBuku}>
 
                     Update Buku
@@ -818,7 +885,7 @@
             {:else}
 
                 <button
-                    class="btn btn-success"
+                    class="btn btn-primary px-4"
                     on:click={tambahBuku}>
 
                     Tambah Buku
@@ -835,7 +902,7 @@
 
     <div class="card shadow">
 
-        <div class="card-header bg-primary text-white">
+        <div class="card-header text-white" style="background:#1E3A8A;">
 
             <h5 class="mb-0">
 
@@ -849,24 +916,16 @@
 
             <!-- SEARCH -->
 
-            <div class="row mb-3">
-
-                <div class="col-md-4">
-
-                    <input
-                        class="form-control"
-                        bind:value={search}
-                        placeholder="🔍 Cari Judul Buku...">
-
-                </div>
-
-            </div>
+            <input
+    class="form-control shadow-sm"
+    bind:value={search}
+    placeholder="🔍 Cari judul buku...">
 
             <!-- TABLE -->
 
             <div class="table-responsive">
 
-                <table class="table table-bordered table-hover table-striped">
+                <table class="table table-hover align-middle">
 
                     <thead class="table-dark">
 
