@@ -495,22 +495,18 @@
 
         <div>
 
-            <h2 class="fw-bold text-primary mb-1">
-
+            <h2 class="fw-bold text-primary">
                 📚 Sistem Peminjaman Buku Perpustakaan
-
             </h2>
 
-            <p class="text-secondary mb-0">
-
-                Kelola Buku & Peminjaman Dengan Mudah
-
+            <p class="text-muted">
+                Dashboard Administrator
             </p>
 
         </div>
 
         <button
-            class="btn btn-outline-danger px-4"
+            class="btn btn-danger"
             on:click={logout}>
 
             Logout
@@ -704,8 +700,7 @@
 
                 <table class="table table-hover align-middle">
 
-                    <thead class="table-dark">
-
+                    <thead class="text-white" style="background:#2563EB;">
                         <tr>
                             <th>No</th>
                             <th>Nama Peminjam</th>
@@ -927,7 +922,7 @@
 
                 <table class="table table-hover align-middle">
 
-                    <thead class="table-dark">
+                     <thead class="text-white" style="background:#2563EB;">
 
                         <tr>
 
@@ -1019,51 +1014,3 @@
 </div>
 
 {/if}
-
-<style>
-
-    body{
-        background:#f4f7fc;
-        font-family:Arial, Helvetica, sans-serif;
-    }
-
-    .container{
-        max-width:1100px;
-    }
-
-    .card{
-        border:none;
-        border-radius:15px;
-        overflow:hidden;
-    }
-
-    .card-header{
-        font-weight:bold;
-    }
-
-    .table th{
-        text-align:center;
-        vertical-align:middle;
-    }
-
-    .table td{
-        vertical-align:middle;
-    }
-
-    .btn{
-        border-radius:8px;
-    }
-
-    .form-control{
-        border-radius:8px;
-    }
-
-    h2{
-        font-weight:bold;
-    }
-
-    .shadow{
-        box-shadow:0 5px 15px rgba(0,0,0,.1)!important;
-    }
-
-</style>

@@ -1,6 +1,7 @@
-import { mount } from 'svelte';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { mount } from 'svelte';
 import App from './App.svelte';
 
 mount(App, {
