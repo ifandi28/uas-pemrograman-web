@@ -161,6 +161,26 @@
 
         try {
 
+            if (!nama_peminjam.trim()) {
+    alert("Nama peminjam harus diisi");
+    return;
+}
+
+if (!judul_buku) {
+    alert("Pilih buku terlebih dahulu");
+    return;
+}
+
+if (!tanggal_pinjam) {
+    alert("Tanggal pinjam harus diisi");
+    return;
+}
+
+if (!tanggal_kembali) {
+    alert("Tanggal kembali harus diisi");
+    return;
+}
+
             await api.post(
 
                 "/peminjaman",
@@ -218,6 +238,31 @@
     async function tambahBuku() {
 
         try {
+
+            if (!judul.trim()) {
+    alert("Judul buku tidak boleh kosong");
+    return;
+}
+
+if (!penulis.trim()) {
+    alert("Penulis tidak boleh kosong");
+    return;
+}
+
+if (!penerbit.trim()) {
+    alert("Penerbit tidak boleh kosong");
+    return;
+}
+
+if (!tahun) {
+    alert("Tahun harus diisi");
+    return;
+}
+
+if (tahun < 1900 || tahun > new Date().getFullYear()) {
+    alert("Tahun tidak valid");
+    return;
+}
 
             await api.post(
 
