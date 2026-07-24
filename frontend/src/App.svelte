@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 <script>
     import { onMount } from "svelte";
     import api from "./api/api";
@@ -235,71 +237,89 @@ if (!tanggal_kembali) {
     // TAMBAH
     // ==========================
 
-    async function tambahBuku() {
+async function tambahBuku() {
 
-        try {
+    if (!judul.trim()) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Judul buku tidak boleh kosong"
+        });
+        return;
+    }
 
-            if (!judul.trim()) {
-    alert("Judul buku tidak boleh kosong");
-    return;
-}
+    if (!penulis.trim()) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Penulis tidak boleh kosong"
+        });
+        return;
+    }
 
-if (!penulis.trim()) {
-    alert("Penulis tidak boleh kosong");
-    return;
-}
+    if (!penerbit.trim()) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Penerbit tidak boleh kosong"
+        });
+        return;
+    }
 
-if (!penerbit.trim()) {
-    alert("Penerbit tidak boleh kosong");
-    return;
-}
+    if (!tahun) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Tahun harus diisi"
+        });
+        return;
+    }
 
-if (!tahun) {
-    alert("Tahun harus diisi");
-    return;
-}
+    try {
 
-if (tahun < 1900 || tahun > new Date().getFullYear()) {
-    alert("Tahun tidak valid");
-    return;
-}
-
-            await api.post(
-
-                "/books",
-
-                {
-                    judul,
-                    penulis,
-                    penerbit,
-                    tahun
-                },
-
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+        await api.post(
+            "/books",
+            {
+                judul,
+                penulis,
+                penerbit,
+                tahun
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
+            }
+        );
 
-            );
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Buku berhasil ditambahkan",
+            timer: 1500,
+            showConfirmButton: false
+        });
 
-            alert("Buku berhasil ditambahkan");
+        judul = "";
+        penulis = "";
+        penerbit = "";
+        tahun = "";
 
-            judul = "";
-            penulis = "";
-            penerbit = "";
-            tahun = "";
+        getBooks();
 
-            await getBooks();
+    } catch (err) {
 
-        } catch (err) {
+        console.log(err);
 
-            console.log(err);
-
-        }
+        Swal.fire({
+            icon: "error",
+            title: "Gagal",
+            text: "Buku gagal ditambahkan"
+        });
 
     }
 
+}
     // ==========================
     // EDIT
     // ==========================
@@ -322,79 +342,139 @@ if (tahun < 1900 || tahun > new Date().getFullYear()) {
     // UPDATE
     // ==========================
 
-    async function updateBuku() {
+async function updateBuku() {
 
-        try {
+    if (!judul.trim()) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Judul buku tidak boleh kosong"
+        });
+        return;
+    }
 
-            await api.put(
+    if (!penulis.trim()) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Penulis tidak boleh kosong"
+        });
+        return;
+    }
 
-                `/books/${editId}`,
+    if (!penerbit.trim()) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Penerbit tidak boleh kosong"
+        });
+        return;
+    }
 
-                {
-                    judul,
-                    penulis,
-                    penerbit,
-                    tahun
-                },
+    if (!tahun) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Tahun harus diisi"
+        });
+        return;
+    }
 
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+    try {
+
+        await api.put(
+            `/books/${editId}`,
+            {
+                judul,
+                penulis,
+                penerbit,
+                tahun
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
+            }
+        );
 
-            );
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Data buku berhasil diperbarui",
+            timer: 1500,
+            showConfirmButton: false
+        });
 
-            alert("Buku berhasil diupdate");
+        editId = null;
 
-            editId = null;
+        judul = "";
+        penulis = "";
+        penerbit = "";
+        tahun = "";
 
-            judul = "";
-            penulis = "";
-            penerbit = "";
-            tahun = "";
+        getBooks();
 
-            await getBooks();
+    } catch (err) {
 
-        } catch (err) {
+        console.log(err);
 
-            console.log(err);
-
-        }
+        Swal.fire({
+            icon: "error",
+            title: "Gagal",
+            text: "Data buku gagal diperbarui"
+        });
 
     }
 
+}
     // ==========================
     // HAPUS
     // ==========================
 
-    async function hapusBuku(id) {
+async function hapusBuku(id) {
 
-        if (!confirm("Yakin ingin menghapus buku?")) return;
+    const result = await Swal.fire({
+        title: "Hapus Buku?",
+        text: "Data yang sudah dihapus tidak dapat dikembalikan.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Hapus",
+        cancelButtonText: "Batal"
+    });
 
-        try {
+    if (!result.isConfirmed) return;
 
-            await api.delete(
+    try {
 
-                `/books/${id}`,
+        await api.delete(`/books/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
 
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Buku berhasil dihapus",
+            timer: 1500,
+            showConfirmButton: false
+        });
 
-            );
+        getBooks();
 
-            await getBooks();
+    } catch (err) {
 
-        } catch (err) {
+        console.log(err);
 
-            console.log(err);
-
-        }
+        Swal.fire({
+            icon: "error",
+            title: "Gagal",
+            text: "Buku gagal dihapus"
+        });
 
     }
+
+}
 
     // ==========================
     // LOAD
